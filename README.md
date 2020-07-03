@@ -56,3 +56,6 @@ repository.save();
    2번 이후 : 실패 이전 각 단계별 rollback 하는 api 호출해야 함.
 
 ![Integration API Error Handling](https://github.com/gregor77/spiking-sample/blob/master/src/main/resources/images/fallback-api.png)
+
+## 참조
+* [Github - Webclient error handling](https://github.com/codecentric/spring-boot-admin/blob/master/spring-boot-admin-server/src/main/java/de/codecentric/boot/admin/server/services/StatusUpdater.java)
