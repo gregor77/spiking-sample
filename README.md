@@ -1,5 +1,6 @@
 # spiking-sample
-### Error Handling의 컨셉은 해당 API의 호출 빈도와 에러 발생 가능 빈도를 기준으로 판단한다.
+## Integration API Error Handling
+컨셉은 해당 API의 호출 빈도와 에러 발생 가능 빈도를 기준으로 판단한다.
 
 - 빈번하게 발생하지 않는 경우에는 사용자가 재처리를 할 수 있는 기능을 제공한다. 
     ex: 프로젝트 생성하는 service의 비즈니스 로직은 다음과 같다.
@@ -13,8 +14,8 @@
     1번 처리 도중 실패할 경우 : create project service transaction 내에서 rollback 되므로 추가 처리 불필요.
     2~6번 처리 도중 실패할 경우 : 
 
-## mattermost 연계 관리
-### Project 생성 시나리오
+## mattermost 연계 시나리오
+### 1. Project 생성 시나리오
 Project 생성시 mattermost와 연계되는 데이터 저장 테이블, (Mattermost_Team 테이블)
 channel의 경우 하드코딩된 값을 사용하기 때문에 DB에 별도 저장하지 않는다.
 
@@ -36,11 +37,7 @@ channel의 경우 하드코딩된 값을 사용하기 때문에 DB에 별도 저
   . FAILED 버튼 클릭, 실패한 API 상태 확인  
   . mattermost 연계 시작 전 : 
 
-#### mattermost_user
-    
-    
-    
-    
+### 2. 사용자 가입 시나리오 
 - 빈번하게 발생하는 경우에는 모든 이전 단계를 rollback 한다.
     ex: 회원가입 service의 비즈니스 로직은 다음과 같다.
     1. PMS 로그인을 위한 openpms 관련 DB insert (user account, role ...)
@@ -49,3 +46,5 @@ channel의 경우 하드코딩된 값을 사용하기 때문에 DB에 별도 저
     
    1번 처리 도중 실패할 경우 : user service transaction 내에서 rollback 되므로 추가 처리 불필요.
    2번 이후 : 실패 이전 각 단계별 rollback 하는 api 호출해야 함.
+
+![Integration API Error Handling](https://github.com/gregor77/spiking-sample/blob/master/src/main/resources/images/fallback-api.png)
