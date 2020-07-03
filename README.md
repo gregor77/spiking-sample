@@ -12,6 +12,31 @@
     
     1번 처리 도중 실패할 경우 : create project service transaction 내에서 rollback 되므로 추가 처리 불필요.
     2~6번 처리 도중 실패할 경우 : 
+
+## mattermost 연계 관리
+### Project 생성 시나리오
+Project 생성시 mattermost와 연계되는 데이터 저장 테이블, (Mattermost_Team 테이블)
+channel의 경우 하드코딩된 값을 사용하기 때문에 DB에 별도 저장하지 않는다.
+
+#### status 컬럼 추가 : SUCCESS, FAILED
+현재 로직 : API 연계 종료 후에, repository.save();
+- TO-BE 로직 : 연계 전에 STATUS = READY repository.save();
+  . API 연계 중간 실패 : FAILED 수정, 어떤 step에서 실패했는지 알아야 한다.
+  . Mattermost 연계 API = 하드코딩으로 Type 지정 or EHS 서비스 API DB 저장
+  . 모든 API 연계 성공 : SUCCESS 수정
+- Project 생성 API는 이미 EHS에 SVC_ID 지정되어 있다.
+  . mattermost Api를 DB에서 관리를 한다.
+  . SVC_ID에 어떤 mattermost APi 사용되는지 매핑관리한다.
+  . ***만약 SVC_ID를 session에서 알 수 없다면, 화면에서 API 요청시 파라미터로 전달한다..***
+  . STATUS : Default는 READY, SUCCESS, FAIL
+  . 화면 프로젝트 관리에서 프로젝트 클릭 -> 어떤 연계 api 에러났는지 상태 확인(READY, FAIL)
+  . 사용자는 READY, FAIL만 다시 수행한다.   
+  
+- 화면 "프로젝트 관리" 메뉴에서 "Messenger 연계" 컬럼에서 상태값 확인 가능
+  . FAILED 버튼 클릭, 실패한 API 상태 확인  
+  . mattermost 연계 시작 전 : 
+
+#### mattermost_user
     
     
     

@@ -39,10 +39,10 @@ public class MattermostService {
     // UncheckedException : RuntimeException 상속 받은 애들 --> Rollback O
     public void createMattermostTeam() {
         // 1. db save
-        repository.save();
-        repository.save();
-        repository.save();
-        repository.save();
+//        repository.save();
+//        repository.save();
+//        repository.save();
+//        repository.save();
 
         // TODO. wiki 정리
 
@@ -65,7 +65,7 @@ public class MattermostService {
         // slack command
 
 
-        mattermostChannelApi.createAndInviteChannel();
+//        mattermostChannelApi.createAndInviteChannel();
 
 
         throw new RuntimeException("error");
