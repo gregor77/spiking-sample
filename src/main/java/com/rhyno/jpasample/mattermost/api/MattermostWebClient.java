@@ -1,6 +1,7 @@
 package com.rhyno.jpasample.mattermost.api;
 
 import com.rhyno.jpasample.mattermost.exception.MattermostApiException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -26,7 +27,26 @@ public class MattermostWebClient {
                 .retrieve()
                 .bodyToMono(String.class)
                 .onErrorResume(fallback)
-                //.onErrorResume(fallback)
+                .block();
+    }
+
+    // 앞의 process -> RollBack 한다. Throw Exception
+    public <T> ApiResponse post2(String url,
+                       Object requestBody,
+                       Class<T> bodyClazz,
+                       Runnable fallback) {
+        return webClient.post()
+                .uri(URI.create(url))
+                .body(BodyInserters.fromValue(requestBody))
+                .exchange()
+                .flatMap(clientResponse -> Mono.just(ApiResponse.builder()
+                        .status(HttpStatus.CREATED)
+                        .body(clientResponse.bodyToMono(bodyClazz))
+                        .build()))
+                .onErrorResume(e -> {
+                    fallback.run();
+                    return Mono.error(new MattermostApiException("[Mattermost API Error] POST, url =" + url + "e=" + e.getMessage()));
+                })
                 .block();
     }
 
