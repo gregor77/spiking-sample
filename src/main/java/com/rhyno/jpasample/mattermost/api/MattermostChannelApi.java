@@ -2,6 +2,9 @@ package com.rhyno.jpasample.mattermost.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rhyno.jpasample.mattermost.api.model.ChannelResponse;
+import com.rhyno.jpasample.mattermost.api.model.CreateChannelRequest;
+import com.rhyno.jpasample.mattermost.api.model.InviteChannelRequest;
 import com.rhyno.jpasample.mattermost.exception.MattermostApiException;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;

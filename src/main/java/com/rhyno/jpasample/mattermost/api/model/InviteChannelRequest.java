@@ -1,4 +1,4 @@
-package com.rhyno.jpasample.mattermost.api;
+package com.rhyno.jpasample.mattermost.api.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
